@@ -5,5 +5,9 @@ app = Flask(__name__)
 def home():
     return "Hello World!"
 
+@app.route("/myroute")
+def mypage():
+    return "Hello. I'm a route!"
+
 if __name__ == "__main__":
     app.run()
