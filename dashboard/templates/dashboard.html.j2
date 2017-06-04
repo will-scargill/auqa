@@ -1,0 +1,32 @@
+{% extends "base.html.j2" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<nav class="navbar navbar-toggleable-md bg-default">
+  <div class="container">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-bar bar1"></span>
+	    <span class="navbar-toggler-bar bar2"></span>
+	    <span class="navbar-toggler-bar bar3"></span>
+ 	  </button>
+
+	  <a class="navbar-brand" href="#pablo">
+      Plant System
+	  </a>
+
+    <div class="collapse navbar-collapse" id="navigation">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="">
+            Dashboard
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <p>TODO: Add some cards here for temperature, etc...</p>
+</div>
+{% endblock %}
