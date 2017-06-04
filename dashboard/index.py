@@ -1,5 +1,5 @@
 from flask import Flask, render_template, send_from_directory
-import auth
+
 app = Flask(__name__)
 
 @app.route("/")
@@ -15,7 +15,6 @@ def html():
     return app.send_static_file("index.html")
 
 @app.route("/dashboard")
-@auth.requires_auth
 def say_hi():
     return render_template("dashboard.html.j2")
 
