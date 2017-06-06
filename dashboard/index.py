@@ -1,4 +1,9 @@
 from flask import Flask, render_template, send_from_directory
+import sqlite3
+
+# Setup SQLite Database
+conn = sqlite3.connect("../database.db")
+c = conn.cursor()
 
 app = Flask(__name__)
 
@@ -7,8 +12,12 @@ def home():
     return "Hello World!"
 
 @app.route("/dashboard")
-def say_hi():
-    return render_template("dashboard.html.j2")
+def dashboard():
+    c.execute("SELECT * FROM data ORDER BY date ASC LIMIT 50")
+    output = c.fetchall()
+    return render_template("dashboard.html.j2", {
+        weatherdata: output
+    });
 
 @app.route("/assets/js/<path:path>")
 def send_js(path):
