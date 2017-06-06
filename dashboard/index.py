@@ -13,6 +13,10 @@ def infomation():
 @app.route("/html")
 def html():
     return app.send_static_file("index.html")
+    
+@app.route("/website")
+def website():
+    return app.send_static_file("Website")
 
 @app.route("/dashboard")
 def say_hi():
