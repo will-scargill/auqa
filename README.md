@@ -14,6 +14,5 @@ A product to monitor the life of a plant.
 
 ```
 pip install -r requirements.txt
-python3 dashboard/index.py
-python3 sense/index.py
+python start.py
 ```
