@@ -55,4 +55,4 @@ if __name__ == "__main__":
 def log(message):
     ts = time.time()
     st = datetime.datetime.fromtimestamp(ts).strftime(' %H:%M:%S %d/%m/%Y')
-    print("[" + st + "] " + message)
+    print("[" + st + "] ", message)
