@@ -7,8 +7,9 @@ if os.environ["TEST"] != "y": # Make sure we are not testing as this will import
     from sense_hat import SenseHat
 import sqlite3
 import time
+import datetime
 
-conn = sqlite3.connect("database.db") #SQLite3 Setup
+conn = sqlite3.connect("database.db", check_same_thread=False) #SQLite3 Setup
 c = conn.cursor() #SQL Cursor
 
 c.execute("""CREATE TABLE IF NOT EXISTS `data` (
@@ -30,10 +31,10 @@ def get_data(): #Get humidity and temperature
     humidity = s.get_humidity()
     temp = s.get_temperature()
     pressure = s.get_pressure()
-    print("""
-Current Humidity: """ + str(humidity) + """
-Current Temperature: """ + str(temp) + """
-Current Air Pressure: """ + str(pressure))
+    log("=========================================")
+    log("Current Humidity:     " + str(humidity) + " %")
+    log("Current Temperature:  " + str(temp) + " degC")
+    log("Current Air Pressure: " + str(pressure) + " mbar")
 
     insert_data(humidity, temp, pressure)
 
@@ -43,7 +44,15 @@ def insert_data(humidity, temperature, pressure): # Put data into the database
     return c.lastrowid
 
 # TODO: Replace this with a CRON Job
-if os.environ["TEST"] != "y": # Only run this if we aren't doing tests
+def go():
     while True:
         get_data()
         time.sleep(10)
+
+if __name__ == "__main__":
+    go()
+
+def log(message):
+    ts = time.time()
+    st = datetime.datetime.fromtimestamp(ts).strftime(' %H:%M:%S %d/%m/%Y')
+    print("[" + st + "] ", message)
