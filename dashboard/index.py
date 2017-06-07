@@ -2,34 +2,17 @@ from flask import Flask, render_template, send_from_directory
 import sqlite3
 
 # Setup SQLite Database
-conn = sqlite3.connect("../database.db")
+conn = sqlite3.connect("database.db")
 c = conn.cursor()
 
 app = Flask(__name__)
 
 @app.route("/")
-def home():
-    return "Hello World!"
-  
-@app.route("/infomation")
-def infomation():
-    return "This is a website for the plant system we are making"
-    
-@app.route("/html")
-def html():
-    return app.send_static_file("index.html")
-    
-@app.route("/website")
-def website():
-    return app.send_static_file("Website")
-
-@app.route("/dashboard")
 def dashboard():
-    c.execute("SELECT * FROM data ORDER BY date ASC LIMIT 50")
-    output = c.fetchall()
-    return render_template("dashboard.html.j2", {
-        weatherdata: output
-    });
+    c.execute("SELECT humidity, temperature, pressure, timestamp FROM `data` ORDER BY timestamp DESC LIMIT 1")
+    current = c.fetchall()[0]
+    print(current)
+    return render_template("dashboard.html.j2", current=current);
 
 @app.route("/assets/js/<path:path>")
 def send_js(path):
