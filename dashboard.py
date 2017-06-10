@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def dashboard():
-    c.execute("SELECT humidity, temperature, pressure, timestamp FROM `data` ORDER BY timestamp DESC LIMIT 1")
+    c.execute("SELECT temperature, pressure, humidity, timestamp FROM `data` ORDER BY timestamp DESC LIMIT 1")
     current = c.fetchall()[0]
     log(current)
     return render_template("dashboard.html.j2", current=current);
@@ -30,7 +30,7 @@ def send_fonts(path):
 
 def log(message):
     ts = time.time()
-    st = datetime.datetime.fromtimestamp(ts).strftime(' %H:%M:%S %d/%m/%Y')
+    st = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S %d/%m/%Y')
     print("[" + st + "] ", message)
 
 if __name__ == "__main__":
