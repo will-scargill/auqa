@@ -6,20 +6,17 @@ syspath.append(os.path.join(os.path.dirname(__file__), "./lib/colorama"))
 from colorama import init, Fore, Back, Style # to change console colours
 init() # init colorama
 
-import importlib
-sensehat_spec = importlib.util.find_spec("sense_hat")
-sensehat_found = sensehat_spec is not None
+os.environ["TEST"] = "n" # Run Normally
 
-if sensehat_found:
-    os.environ["TEST"] = "n" # Run Normally
-else:
+try:
+    from sense_hat import SenseHat
+except ModuleNotFoundError:
     print(Fore.RED + Style.BRIGHT + " [!] The Sense Hat module is not installed. Starting in testing mode...")
     os.environ["TEST"] = "y" # Run in Test Mode
 
 import signal
 
 import threading # to run each module simultaneously
-from msvcrt import getch # to check for the esc key
 
 # show plant system ascii art text
 print(Fore.GREEN + Style.BRIGHT + "   ___  __          __    ____         __          ")
@@ -35,8 +32,6 @@ print(Style.RESET_ALL)
 import dashboard
 import sense
 
-print(Fore.CYAN + Style.BRIGHT + " [i] Press `ESC` to quit.")
-
 # make the dashboard and sense threads
 sensethread = threading.Thread(target=sense.go)
 dashboardthread = threading.Thread(target=dashboard.app.run)
@@ -49,11 +44,6 @@ sensethread.start()
 print(Fore.CYAN + Style.BRIGHT + " [+] Starting Web Server...")
 dashboardthread.start()
 
-# keep checking for esc key
+# run forever
 while True:
-    key = ord(getch())
-    if key == 27: # esc
-        #quit
-        print(Fore.RED + Style.BRIGHT + " [!] Stopping (user exit)...")
-        print(Style.RESET_ALL)
-        os.kill(os.getpid(), signal.SIGINT)
+    pass
