@@ -13,8 +13,10 @@ app = Flask(__name__)
 def dashboard():
     c.execute("SELECT temperature, pressure, humidity, timestamp FROM `data` ORDER BY timestamp DESC LIMIT 1")
     current = c.fetchall()[0]
-    log(current)
-    return render_template("dashboard.html.j2", current=current);
+    c.execute("SELECT temperature, pressure, humidity, timestamp FROM `data` WHERE timestamp >= datetime('now', '-1 day') ORDER BY timestamp ASC")
+    history = c.fetchall()
+    #log(current)
+    return render_template("dashboard.html.j2", current=current, history=history);
 
 @app.route("/assets/js/<path:path>")
 def send_js(path):
