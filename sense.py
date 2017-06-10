@@ -5,6 +5,7 @@ if os.environ["TEST"] != "y": # Make sure we are not testing as this will import
 import sqlite3
 import time
 import datetime
+import random
 
 conn = sqlite3.connect("database.db", check_same_thread=False) #SQLite3 Setup
 c = conn.cursor() #SQL Cursor
@@ -25,9 +26,15 @@ else:
     s = None
 
 def get_data(): #Get humidity and temperature
-    humidity = s.get_humidity()
-    temp = s.get_temperature()
-    pressure = s.get_pressure()
+    if os.environ["TEST"] != "y":
+        humidity = s.get_humidity()
+        temp = s.get_temperature()
+        pressure = s.get_pressure()
+    else:
+        # Generate Fake Data
+        humidity = random.uniform(30, 80) # 30% to 80%
+        temp = random.uniform(10, 30) # 10degC to 30degC
+        pressure = random.uniform(1000, 2000) # 1000mbar to 2000mbar
     log("=========================================")
     log("Current Humidity:     " + str(humidity) + " %")
     log("Current Temperature:  " + str(temp) + " degC")
