@@ -3,9 +3,7 @@ import os
 from sys import path as syspath
 syspath.append(os.path.join(os.path.dirname(__file__), "./lib/colorama"))
 
-# import dashboard and sense modules
-import dashboard.index as dashboard
-import sense.index as sense
+os.environ["TEST"] = "n" # Run Normally
 
 import signal
 
@@ -24,6 +22,10 @@ print(Fore.GREEN + Style.BRIGHT + "                           /___/             
 
 # reset colours
 print(Style.RESET_ALL)
+
+# import dashboard and sense modules
+import dashboard
+import sense
 
 print(Fore.CYAN + Style.BRIGHT + " [i] Press `ESC` to quit.")
 

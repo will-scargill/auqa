@@ -5,8 +5,8 @@ import os
 os.environ["TEST"] = "y"
 
 # import dashboard and sense
-import dashboard.index as dashboard
-import sense.index as sense
+import dashboard
+import sense
 
 # import database
 import sqlite3
