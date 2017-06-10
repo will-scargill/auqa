@@ -3,15 +3,23 @@ import os
 from sys import path as syspath
 syspath.append(os.path.join(os.path.dirname(__file__), "./lib/colorama"))
 
-os.environ["TEST"] = "n" # Run Normally
+from colorama import init, Fore, Back, Style # to change console colours
+init() # init colorama
+
+import importlib
+sensehat_spec = importlib.util.find_spec("sense_hat")
+sensehat_found = sensehat_spec is not None
+
+if sensehat_found:
+    os.environ["TEST"] = "n" # Run Normally
+else:
+    print(Fore.RED + Style.BRIGHT + " [!] The Sense Hat module is not installed. Starting in testing mode...")
+    os.environ["TEST"] = "y" # Run in Test Mode
 
 import signal
 
 import threading # to run each module simultaneously
 from msvcrt import getch # to check for the esc key
-
-from colorama import init, Fore, Back, Style # to change console colours
-init() # init colorama
 
 # show plant system ascii art text
 print(Fore.GREEN + Style.BRIGHT + "   ___  __          __    ____         __          ")
