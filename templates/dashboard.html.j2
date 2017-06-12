@@ -2,65 +2,70 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<nav class="navbar navbar-toggleable-md bg-default">
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
   <div class="container">
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-bar bar1"></span>
-	    <span class="navbar-toggler-bar bar2"></span>
-	    <span class="navbar-toggler-bar bar3"></span>
- 	  </button>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="/">Auqa</a>
 
-	  <a class="navbar-brand" href="#pablo">
-      Auqa
-	  </a>
-
-    <div class="collapse navbar-collapse" id="navigation">
-      <ul class="navbar-nav">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="">
-            Dashboard
-          </a>
+          <a class="nav-link" href="/">Dashboard <span class="sr-only">(current)</span></a>
         </li>
+        <!--<li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>-->
       </ul>
     </div>
   </div>
 </nav>
 
-<div class="container">
-  <div class="row">
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-3">Auqa Dashboard</h1>
+    <p class="lead">Your plant is looking healthy. Your plant needs watering.</p>
+  </div>
+</div>
 
-    <div class="col-md-6">
-      <div class="card">
-        <img class="card-img-top img-fluid" src="http://images.all-free-download.com/images/graphicthumb/grass_sky_picture_3_165867.jpg" alt="Card image cap">
-        <div class="card-block">
-          <h4 class="card-title">Temperature</h4>
-          <p class="card-text">The plant's room temperature is currently {{ current[0] | round(precision=2) }}°C.</p>
-          <canvas id="temperature-chart"></canvas>
-          <!--<a href="#" class="btn btn-primary">How hot is it?</a>-->
+<div class="section">
+  <div class="container">
+    <div class="row">
+
+      <div class="col-md-4" style="padding-bottom: .5em;">
+        <div class="card">
+          <img class="card-img-top img-fluid" src="http://images.all-free-download.com/images/graphicthumb/grass_sky_picture_3_165867.jpg" alt="Card image cap">
+          <div class="card-block">
+            <h4 class="card-title">Temperature</h4>
+            <p class="card-text">The plant's room temperature is currently {{ current[0] | round(precision=2) }}°C.</p>
+            <canvas id="temperature-chart"></canvas>
+            <!--<a href="#" class="btn btn-primary">How hot is it?</a>-->
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="col-md-6">
-      <div class="card">
-        <img class="card-img-top img-fluid" src="http://images.all-free-download.com/images/graphicthumb/grass_sky_picture_3_165867.jpg" alt="Card image cap">
-        <div class="card-block">
-          <h4 class="card-title">Pressure</h4>
-          <p class="card-text">The plant's room pressure is currently {{ current[1] | round(precision=2) }} mbar.</p>
-          <canvas id="pressure-chart"></canvas>
-          <!--<a href="#" class="btn btn-primary">Pressure</a>-->
+      <div class="col-md-4" style="padding-bottom: .5em;">
+        <div class="card">
+          <img class="card-img-top img-fluid" src="http://images.all-free-download.com/images/graphicthumb/grass_sky_picture_3_165867.jpg" alt="Card image cap">
+          <div class="card-block">
+            <h4 class="card-title">Pressure</h4>
+            <p class="card-text">The plant's room pressure is currently {{ current[1] | round(precision=2) }} mbar.</p>
+            <canvas id="pressure-chart"></canvas>
+            <!--<a href="#" class="btn btn-primary">Pressure</a>-->
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="col-md-6">
-      <div class="card">
-        <img class="card-img-top img-fluid" src="http://www.goodwp.com/images/201301/goodwp.com_27257.jpg" alt="Card image cap">
-        <div class="card-block">
-          <h4 class="card-title">Humidity</h4>
-          <p class="card-text">The plant's room humidity is currently {{ current[2] | round(precision=2) }}%.</p>
-          <canvas id="humidity-chart"></canvas>
-          <!--<a href="#" class="btn btn-primary">Humidity</a>-->
+      <div class="col-md-4" style="padding-bottom: .5em;">
+        <div class="card">
+          <img class="card-img-top img-fluid" src="http://www.goodwp.com/images/201301/goodwp.com_27257.jpg" alt="Card image cap">
+          <div class="card-block">
+            <h4 class="card-title">Humidity</h4>
+            <p class="card-text">The plant's room humidity is currently {{ current[2] | round(precision=2) }}%.</p>
+            <canvas id="humidity-chart"></canvas>
+            <!--<a href="#" class="btn btn-primary">Humidity</a>-->
+          </div>
         </div>
       </div>
     </div>
@@ -81,7 +86,7 @@
         labels: [{% for item in history %}moment(new Date("{{item[3]}}")),{% endfor %}],
         datasets: [{
             label: 'Temperature (°C)',
-            data: [{% for item in history %}{{item[0]}},{% endfor %}],
+            data: [{% for item in history %}{{ item[0] | round(precision=3) }},{% endfor %}],
             borderColor: [
                 'rgba(255,99,132,1)',
                 'rgba(54, 162, 235, 1)',
@@ -114,7 +119,7 @@
         labels: [{% for item in history %}moment(new Date("{{item[3]}}")),{% endfor %}],
         datasets: [{
             label: 'Pressure (mbar)',
-            data: [{% for item in history %}{{item[1]}},{% endfor %}],
+            data: [{% for item in history %}{{ item[1] | round(precision=3) }},{% endfor %}],
             borderColor: [
                 'rgba(255,99,132,1)',
                 'rgba(54, 162, 235, 1)',
@@ -147,7 +152,7 @@
         labels: [{% for item in history %}moment(new Date("{{item[3]}}")),{% endfor %}],
         datasets: [{
             label: 'Humidity (%)',
-            data: [{% for item in history %}{{item[2]}},{% endfor %}],
+            data: [{% for item in history %}{{ item[2] | round(precision=3) }},{% endfor %}],
             borderColor: [
                 'rgba(255,99,132,1)',
                 'rgba(54, 162, 235, 1)',
