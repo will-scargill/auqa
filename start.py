@@ -19,11 +19,11 @@ import signal
 import threading # to run each module simultaneously
 
 # show plant system ascii art text
-print(Fore.GREEN + Style.BRIGHT + "   ___  __          __    ____         __          ")
-print(Fore.GREEN + Style.BRIGHT + "  / _ \/ /__ ____  / /_  / __/_ _____ / /____ __ _ ")
-print(Fore.GREEN + Style.BRIGHT + " / ___/ / _ `/ _ \/ __/ _\ \/ // (_-</ __/ -_)  ' \\")
-print(Fore.GREEN + Style.BRIGHT + "/_/  /_/\_,_/_//_/\__/ /___/\_, /___/\__/\__/_/_/_/")
-print(Fore.GREEN + Style.BRIGHT + "                           /___/                   ")
+print(Fore.GREEN + Style.BRIGHT + "    _                  ")
+print(Fore.GREEN + Style.BRIGHT + "   /_\ _  _ __ _ __ _  ")
+print(Fore.GREEN + Style.BRIGHT + "  / _ \ || / _` / _` | ")
+print(Fore.GREEN + Style.BRIGHT + " /_/ \_\_,_\__, \__,_| ")
+print(Fore.GREEN + Style.BRIGHT + "              |_|      ")
 
 # reset colours
 print(Style.RESET_ALL)
