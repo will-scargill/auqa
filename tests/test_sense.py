@@ -9,13 +9,14 @@ def test_put_into_database():
     humidity = random.uniform(30, 80)
     temperature = random.uniform(10, 30)
     pressure = random.uniform(1000, 2000)
-
+    soil_humidity = random.uniform(256, 1024)
+    
     # Insert the data using the function in /sense/index.py
     # and get the returned id.
-    id = sense.insert_data(humidity, temperature, pressure)
+    id = sense.insert_data(humidity, temperature, pressure, soil_humidity)
 
     # Use the returned id to get the inputted data
-    db_c.execute("SELECT humidity, temperature, pressure FROM `data` WHERE id = ?", [id])
+    db_c.execute("SELECT humidity, temperature, pressure, soil_humidity FROM `data` WHERE id = ?", [id])
 
     data = db_c.fetchall()[0]
 
@@ -23,3 +24,4 @@ def test_put_into_database():
     assert data[0] == humidity
     assert data[1] == temperature
     assert data[2] == pressure
+    assert data[3] == soil_humidity
