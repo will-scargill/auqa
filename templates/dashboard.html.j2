@@ -26,6 +26,9 @@
   <div class="container">
     <h1 class="display-3">Auqa Dashboard</h1>
     <p class="lead">Your plant is looking healthy. Your plant needs watering.</p>
+    <p class="lead">
+      <button class="btn btn-primary btn-lg" type="button" id="manual-water">Manual Water</button>
+    </p>
   </div>
 </div>
 
@@ -176,6 +179,13 @@
         legend: {
           display: false
         }
+    }
+  });
+
+  $("#manual-water").click(function() {
+    if (confirm("Are you sure you would like to manually water?")) {
+      // run water function
+      console.log("Run water function");
     }
   });
 </script>
