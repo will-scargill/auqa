@@ -15,10 +15,19 @@ c.execute("""CREATE TABLE IF NOT EXISTS `data` (
 	`timestamp`	DATE NOT NULL DEFAULT (datetime('now','localtime')),
 	`humidity`	REAL,
 	`temperature`	REAL,
-	`pressure`	REAL
+	`pressure`	REAL,
+	`soil_humidity` REAL
 );""")
 
 conn.commit()
+
+c.execute("""CREATE TABLE IF NOT EXISTS `options` (
+        `name` TEXT,
+	`value`	TEXT
+);""")
+
+conn.commit()
+
 
 if os.environ["TEST"] != "y":
     s = SenseHat() #Sensehat Setup
@@ -35,15 +44,20 @@ def get_data(): #Get humidity and temperature
         humidity = random.uniform(30, 80) # 30% to 80%
         temp = random.uniform(10, 30) # 10degC to 30degC
         pressure = random.uniform(1000, 2000) # 1000mbar to 2000mbar
+    #===============
+    soil_humidity = random.uniform(255, 1024) 
+    #===============
     log("=========================================")
-    log("Current Humidity:     " + str(humidity) + " %")
-    log("Current Temperature:  " + str(temp) + " degC")
-    log("Current Air Pressure: " + str(pressure) + " mbar")
+    log("Current Humidity:      " + str(humidity) + " %")
+    log("Current Temperature:   " + str(temp) + " degC")
+    log("Current Air Pressure:  " + str(pressure) + " mbar")
+    log("-----------------------------------------")
+    log("Current Soil Humidity: " + str(soil_humidity) + " %")
 
-    insert_data(humidity, temp, pressure)
+    insert_data(humidity, temp, pressure, soil_humidity)
 
-def insert_data(humidity, temperature, pressure): # Put data into the database
-    c.execute("INSERT INTO `data` (humidity, temperature, pressure) VALUES (?, ?, ?)", [humidity, temperature, pressure])
+def insert_data(humidity, temperature, pressure, soil_humidity): # Put data into the database
+    c.execute("INSERT INTO `data` (humidity, temperature, pressure, soil_humidity) VALUES (?, ?, ?, ?)", [humidity, temperature, pressure, soil_humidity])
     conn.commit()
     return c.lastrowid
 
@@ -51,6 +65,18 @@ def insert_data(humidity, temperature, pressure): # Put data into the database
 def go():
     while True:
         get_data()
+
+        rowid = c.lastrowid
+        c.execute("SELECT * FROM data WHERE id=?", [rowid])
+        soil_humidity = c.fetchall()
+        soil_humidity = soil_humidity[0][5]
+        if soil_humidity > 900:
+            water(soil_humidity)
+        else:
+            log("===================================================")
+            log("Soil humidity not over threshold, plant not watered")
+            log("===================================================")
+        
         time.sleep(10)
 
 if __name__ == "__main__":
@@ -60,3 +86,8 @@ def log(message):
     ts = time.time()
     st = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S %d/%m/%Y')
     print("[" + st + "] ", message)
+
+def water(soil_humidity):
+    log("=====================================================")
+    log("Plant watered with a soil humidity of " + str(soil_humidity))
+    log("=====================================================")

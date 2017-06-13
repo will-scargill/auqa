@@ -6,7 +6,7 @@ syspath.append(os.path.join(os.path.dirname(__file__), "./lib/colorama"))
 from colorama import init, Fore, Back, Style # to change console colours
 init() # init colorama
 
-os.environ["TEST"] = "n" # Run Normally
+os.environ["TEST"] = "n" # Run Normall
 
 try:
     from sense_hat import SenseHat
