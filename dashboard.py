@@ -11,9 +11,13 @@ app = Flask(__name__)
 
 @app.route("/")
 def dashboard():
-    c.execute("SELECT temperature, pressure, humidity, timestamp FROM `data` ORDER BY timestamp DESC LIMIT 1")
-    current = c.fetchall()[0]
-    c.execute("SELECT temperature, pressure, humidity, timestamp FROM `data` WHERE timestamp >= datetime('now', '-1 day') ORDER BY timestamp ASC")
+    c.execute("SELECT temperature, pressure, humidity, timestamp, soil_humidity FROM `data` ORDER BY timestamp DESC LIMIT 1")
+    data = c.fetchall()
+    if len(data) > 0:
+        current = c.fetchall()[0]
+    else:
+        current = None
+    c.execute("SELECT temperature, pressure, humidity, timestamp, soil_humidity FROM `data` WHERE timestamp >= datetime('now', '-1 day') ORDER BY timestamp ASC")
     history = c.fetchall()
     #log(current)
     return render_template("dashboard.html.j2", current=current, history=history);
