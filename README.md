@@ -1,6 +1,6 @@
-# Plant System
+# <img src="assets/img/logo-square-black.png" height=75px> Auqa
 
-[![Travis](https://img.shields.io/travis/malvern-code-club/plant-system.svg?style=flat-square)](https://travis-ci.org/malvern-code-club/plant-system) [![Raspberry Pi Pioneers](https://img.shields.io/badge/made%20for-Raspberry%20Pi%20Pioneers-red.svg?style=flat-square)](https://www.raspberrypi.org/pioneers/)
+[![Travis](https://img.shields.io/travis/malvern-code-club/auqa.svg?style=flat-square)](https://travis-ci.org/malvern-code-club/auqa) [![Raspberry Pi Pioneers](https://img.shields.io/badge/made%20for-Raspberry%20Pi%20Pioneers-red.svg?style=flat-square)](https://www.raspberrypi.org/pioneers/)
 
 A product to monitor the life of a plant.
 
@@ -14,6 +14,5 @@ A product to monitor the life of a plant.
 
 ```
 pip install -r requirements.txt
-python3 dashboard/index.py
-python3 sense/index.py
+python start.py
 ```

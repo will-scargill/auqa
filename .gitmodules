@@ -1,0 +1,3 @@
+[submodule "colorama"]
+	path = lib/colorama
+	url = https://github.com/tartley/colorama.git
