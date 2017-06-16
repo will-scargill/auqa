@@ -2,6 +2,7 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
+<!-- Navbar -->
 <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
   <div class="container">
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,12 +37,16 @@
   <div class="container">
     <div class="row">
 
+      <!-- Temperature Card -->
       <div class="col-md-4" style="padding-bottom: .5em;">
         <div class="card">
+          <!-- Temperature Card Image -->
           <img class="card-img-top img-fluid" src="http://www.hdnicewallpapers.com/Walls/Big/Summer/Beautiful_Sun_Photo_on_Season_Summer.jpg" alt="Card image cap">
           <div class="card-block">
             <h4 class="card-title">Temperature</h4>
+            <!-- Get current temperature -->
             <p class="card-text">The plant's room temperature is currently {{ current[0] | round(precision=2) }}°C.</p>
+            <!-- Prepare canvas for the chart -->
             <canvas id="temperature-chart"></canvas>
             <!--<a href="#" class="btn btn-primary">How hot is it?</a>-->
           </div>
@@ -79,10 +84,12 @@
 {% block footer %}
 {{ super() }}
 <script>
+  // Setup canvas' for the charts
   var tempCtx = document.getElementById("temperature-chart").getContext("2d");
   var pressureCtx = document.getElementById("pressure-chart").getContext("2d");
   var humidityCtx = document.getElementById("humidity-chart").getContext("2d");
 
+  // setup chart
   var tempChart = new Chart(tempCtx, {
     type: 'line',
     data: {
@@ -182,10 +189,22 @@
     }
   });
 
+  // when the manual water button is clicked
   $("#manual-water").click(function() {
+    // ask if they are sure they want to water
     if (confirm("Are you sure you would like to manually water?")) {
-      // run water function
-      console.log("Run water function");
+      // tell server to water plant
+      $.post("/api/manualwater", function(data) {
+        if (data) {
+          if (data["status"] == "ok") {
+            // success
+            alert("Now watering your plant...");
+          } else {
+            // failure
+            alert("Failed to call sense file. Make sure you have run start.py and check your connection to the Auqa server.");
+          }
+        }
+      });
     }
   });
 </script>
