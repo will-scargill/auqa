@@ -45,7 +45,7 @@ def get_data(): #Get humidity and temperature
         temp = random.uniform(10, 30) # 10degC to 30degC
         pressure = random.uniform(1000, 2000) # 1000mbar to 2000mbar
     #===============
-    soil_humidity = random.uniform(255, 1024) 
+    soil_humidity = random.uniform(255, 1024)
     #===============
     log("=========================================")
     log("Current Humidity:      " + str(humidity) + " %")
@@ -71,12 +71,12 @@ def go():
         soil_humidity = c.fetchall()
         soil_humidity = soil_humidity[0][5]
         if soil_humidity > 900:
-            water(soil_humidity)
+            water()
         else:
             log("===================================================")
             log("Soil humidity not over threshold, plant not watered")
             log("===================================================")
-        
+
         time.sleep(10)
 
 if __name__ == "__main__":
@@ -87,7 +87,7 @@ def log(message):
     st = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S %d/%m/%Y')
     print("[" + st + "] ", message)
 
-def water(soil_humidity):
+def water():
     log("=====================================================")
-    log("Plant watered with a soil humidity of " + str(soil_humidity))
+    log("Plant watered with a soil humidity of")
     log("=====================================================")
