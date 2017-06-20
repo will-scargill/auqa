@@ -7,6 +7,8 @@ import time
 import datetime
 import random
 
+from camera import Capture
+
 conn = sqlite3.connect("database.db", check_same_thread=False) #SQLite3 Setup
 c = conn.cursor() #SQL Cursor
 
@@ -55,6 +57,12 @@ def get_data(): #Get humidity and temperature
     log("Current Soil Humidity: " + str(soil_humidity) + " %")
 
     insert_data(humidity, temp, pressure, soil_humidity)
+
+    ts = time.time()
+
+    st = datetime.datetime.fromtimestamp(ts).strftime('%H-%M-%S-%d')
+    
+    Capture(st + ".jpg")
 
 def insert_data(humidity, temperature, pressure, soil_humidity): # Put data into the database
     c.execute("INSERT INTO `data` (humidity, temperature, pressure, soil_humidity) VALUES (?, ?, ?, ?)", [humidity, temperature, pressure, soil_humidity])
