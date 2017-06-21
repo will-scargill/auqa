@@ -64,7 +64,7 @@ def get_data(): #Get humidity and temperature
     ts = time.time()
 
     st = datetime.datetime.fromtimestamp(ts).strftime('%H-%M-%S-%d')
-    
+
     Capture(st + ".jpg")
 
 def insert_data(humidity, temperature, pressure, soil_humidity): # Put data into the database
@@ -84,9 +84,7 @@ def go():
         if soil_humidity > 900:
             water()
         else:
-            log("===================================================")
-            log("Soil humidity not over threshold, plant not watered")
-            log("===================================================")
+            log("Not watering plant because not over threshold")
 
         time.sleep(10)
 
