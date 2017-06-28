@@ -2,6 +2,7 @@ import os
 
 if os.environ["TEST"] != "y": # Make sure we are not testing as this will import error
     from sense_hat import SenseHat
+    import RPi.GPIO as GPIO
 import sqlite3
 import time
 import datetime
@@ -33,6 +34,9 @@ conn.commit()
 
 if os.environ["TEST"] != "y":
     s = SenseHat() #Sensehat Setup
+
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(17, GPIO.IN)
 else:
     s = None
 
@@ -41,27 +45,26 @@ def get_data(): #Get humidity and temperature
         humidity = s.get_humidity()
         temp = s.get_temperature()
         pressure = s.get_pressure()
+        soil_humidity = GPIO.input(17)
     else:
         # Generate Fake Data
         humidity = random.uniform(30, 80) # 30% to 80%
         temp = random.uniform(10, 30) # 10degC to 30degC
         pressure = random.uniform(1000, 2000) # 1000mbar to 2000mbar
-    #===============
-    soil_humidity = random.uniform(255, 1024) 
-    #===============
+        soil_humidity = random.uniform(0, 1) # 1 or 0
     log("=========================================")
     log("Current Humidity:      " + str(humidity) + " %")
     log("Current Temperature:   " + str(temp) + " degC")
     log("Current Air Pressure:  " + str(pressure) + " mbar")
     log("-----------------------------------------")
-    log("Current Soil Humidity: " + str(soil_humidity) + " %")
+    log("Current Soil Humidity: " + str(soil_humidity))
 
     insert_data(humidity, temp, pressure, soil_humidity)
 
     ts = time.time()
 
     st = datetime.datetime.fromtimestamp(ts).strftime('%H-%M-%S-%d')
-    
+
     Capture(st + ".jpg")
 
 def insert_data(humidity, temperature, pressure, soil_humidity): # Put data into the database
@@ -79,12 +82,10 @@ def go():
         soil_humidity = c.fetchall()
         soil_humidity = soil_humidity[0][5]
         if soil_humidity > 900:
-            water(soil_humidity)
+            water()
         else:
-            log("===================================================")
-            log("Soil humidity not over threshold, plant not watered")
-            log("===================================================")
-        
+            log("Not watering plant because not over threshold")
+
         time.sleep(10)
 
 if __name__ == "__main__":
@@ -95,7 +96,5 @@ def log(message):
     st = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S %d/%m/%Y')
     print("[" + st + "] ", message)
 
-def water(soil_humidity):
-    log("=====================================================")
-    log("Plant watered with a soil humidity of " + str(soil_humidity))
-    log("=====================================================")
+def water():
+    log("== Watered Plant ==")

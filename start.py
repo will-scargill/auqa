@@ -16,6 +16,8 @@ except ModuleNotFoundError:
 
 import signal
 
+import time
+
 import threading # to run each module simultaneously
 
 # show plant system ascii art text
@@ -41,6 +43,8 @@ print(Fore.CYAN + Style.BRIGHT + " [+] Starting Sense...")
 sensethread.start()
 
 # start the dashboard thread
+# wait before starting
+time.sleep(5)
 print(Fore.CYAN + Style.BRIGHT + " [+] Starting Web Server...")
 dashboardthread.start()
 
